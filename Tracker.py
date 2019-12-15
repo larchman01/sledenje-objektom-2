@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Main tracker Script"""
-
-from timeit import default_timer as timer
+import getopt
+from multiprocessing import Queue
 import sys
 import cv2.aruco as aruco
 from VideoStreamer import VideoStreamer
@@ -9,12 +9,14 @@ from VideoStreamer import VideoStreamer
 from TrackerUtils import *
 from Resources import *
 
+debug = False
+
 
 def startTracker(queue):
     # Load video
     cap = VideoStreamer()
     # cap.start(0)
-    cap.start("./ROBO_3.mp4")
+    cap.start(ResFileNames.videoSource)
 
     # Setting up aruco tags
     aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
@@ -26,17 +28,10 @@ def startTracker(queue):
     # Initialize tracker stat variables
     configMap, quit, objects, frameCounter, gameData = initState()
 
-    # just for sorting gameData first Time
-    # with open(ResFileNames.gameDataFileName, "w") as
-    # f:
-    #    ujson.dump(gameData,f)
-
     # Create window
     cv2.namedWindow(ResGUIText.sWindowName, cv2.WINDOW_NORMAL)
     # cv2.resizeWindow(ResGUIText.sWindowName, 2000,1000)
 
-    # Start the FPS timer
-    ts = timer()
     while not quit:
 
         # Load frame-by-frame
@@ -67,28 +62,56 @@ def startTracker(queue):
             # Write game data to file
             gameData.write(objects)
 
-            # TODO Writes to a multiprocess queue
             queue.put(gameData)
 
-            # TODO
             cv2.waitKey(1)
 
-            # Draw GUI and objects
-            frame = aruco.drawDetectedMarkers(frame, cornersTracked, ids)
-            # Show frame
-            cv2.imshow(ResGUIText.sWindowName, frame)
-
-            # print(gameData.objects)
+            if debug:
+                # Draw GUI and objects
+                frame = aruco.drawDetectedMarkers(frame, cornersTracked, ids)
+                # Show frame
+                cv2.imshow(ResGUIText.sWindowName, frame)
 
         else:
             break
 
     # When everything done, release the capture
-    # t.join()
-    # cap.stop()
     cv2.destroyAllWindows()
     sys.exit(0)
 
 
+def main(argv):
+
+    try:
+        opts, args = getopt.getopt(argv, "hs:cd", ["videoSource="])
+    except getopt.GetoptError:
+        helpText()
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            helpText()
+            sys.exit()
+        elif opt in ("-c", "--camera"):
+            ResFileNames.videoSource = 0
+            print("Set video source to: " + str(ResFileNames.videoSource))
+        elif opt in ("-s", "--videoSource"):
+            ResFileNames.videoSource = arg
+            print("Set video source to: " + str(ResFileNames.videoSource))
+        elif opt in ("-d", "--debug"):
+            global debug
+            debug = True
+
+
+def helpText():
+    print("usage:")
+    print("\t-s <videoSource>            sets video source")
+    print("\t--videoSource <videoSource> sets video source")
+    print("\t-c                          sets camera as video source")
+    print("\t--camera                    sets camera as video source")
+    print("\t-d                          turns on debug mode")
+    print("\t--debug                     turns on debug mode")
+
+
 if __name__ == '__main__':
-    startTracker(0)
+    main(sys.argv[1:])
+    startTracker(Queue())

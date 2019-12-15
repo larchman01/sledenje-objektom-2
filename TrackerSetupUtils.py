@@ -44,11 +44,10 @@ def getClickPoint(event, x, y, flags, param):
     """
     configMap = param
     if event == cv2.EVENT_LBUTTONDOWN:
-        if len(configMap.fieldCorners) == ResGUIText.numOfCorners:
-            configMap.fieldCorners.clear()
-            ResGUIText.fieldDefineGuideId = 0
+
         configMap.fieldCorners.append([x, y])
         ResGUIText.fieldDefineGuideId += 1
+
         if len(configMap.fieldCorners) == ResGUIText.numOfCorners:
             src = np.array([configMap.fieldCorners[0], configMap.fieldCorners[1], configMap.fieldCorners[2],
                             configMap.fieldCorners[3]],
@@ -91,7 +90,7 @@ def drawFPS(img, fps):
     cv2.putText(img, ResGUIText.sFps + str(int(fps)), (10, 30), font, 1, (0, 255, 255), 2, cv2.LINE_AA)
 
 
-def processKeys(configMap, fieldEditMode, quit):
+def processKeys(configMap: ResMap, fieldEditMode, quit):
     # Detect key press
     keypressed = cv2.waitKey(1) & 0xFF
 
@@ -100,10 +99,9 @@ def processKeys(configMap, fieldEditMode, quit):
         fieldEditMode = not fieldEditMode
         if fieldEditMode:
             configMap.fieldCorners.clear()
+            configMap.fields.clear()
             ResGUIText.fieldDefineGuideId = 0
             cv2.setMouseCallback(ResGUIText.sWindowName, getClickPoint, configMap)
-        else:
-            cv2.setMouseCallback(ResGUIText.sWindowName, lambda *args: None)
 
     # Quit
     elif keypressed == ord(ResKeys.quitKey):
@@ -121,4 +119,3 @@ def parseFields(configMap):
             "bottomLeft": configMap.fieldCorners[index+2],
             "bottomRight": configMap.fieldCorners[index+3]
         }
-    print(configMap.fields)

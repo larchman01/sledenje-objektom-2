@@ -12,7 +12,7 @@ from Resources import ResMap
 cap = VideoStreamer()
 # cap.start(ResFileNames.videoSource)
 # cap.start(0)
-cap.start("./ROBO_3.mp4")
+cap.start(0)
 
 # Initialize trackerSetup stat variables
 fieldEditMode = False
@@ -50,13 +50,12 @@ while not quit:
 
                 parseFields(configMap)
 
-                # os.remove(ResFileNames.mapConfigFilePath)
-                # TODO delete old config
                 with open(ResFileNames.mapConfigFilePath, 'wb') as output:
                     pickle.dump(configMap, output, pickle.HIGHEST_PROTOCOL)
                     print(configMap.fields)
 
-                fieldEditMode = False
+                fieldEditMode = not fieldEditMode
+                cv2.setMouseCallback(ResGUIText.sWindowName, lambda *args: None)
 
         # Draw GUI and objects
         drawOverlay(frame, configMap, fieldEditMode)
