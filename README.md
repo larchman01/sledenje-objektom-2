@@ -1,3 +1,3 @@
 Sledenje objektom
 =================
-pip install `git+https://github.com/Blarc/sledenje-objektom-2`
+`pip install git+https://github.com/RoboLiga/sledenje-objektom-2`
