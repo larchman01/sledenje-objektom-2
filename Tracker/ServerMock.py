@@ -1,7 +1,7 @@
 from multiprocessing import Process, Queue
 import time
 
-from package import Tracker
+from Tracker import Tracker
 
 if __name__ == '__main__':
 

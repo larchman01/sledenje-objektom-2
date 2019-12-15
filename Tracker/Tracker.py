@@ -4,10 +4,10 @@ import getopt
 from multiprocessing import Queue
 import sys
 import cv2.aruco as aruco
-from package.VideoStreamer import VideoStreamer
+from VideoStreamer import VideoStreamer
 
-from package.TrackerUtils import *
-from package.Resources import *
+from TrackerUtils import *
+from Resources import *
 
 debug = False
 

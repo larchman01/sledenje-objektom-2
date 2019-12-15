@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from package.Resources import *
+from Resources import *
 
 
 def undistort(img):

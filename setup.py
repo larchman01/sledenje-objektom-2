@@ -8,6 +8,6 @@ setup(
     author="Jakob Maležič",
     author_email="jakob.malezic@gmail.com",
     license="unlicense",
-    packages=["package"],
+    packages=["Tracker"],
     zip_safe=False
 )

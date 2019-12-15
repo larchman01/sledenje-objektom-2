@@ -4,10 +4,9 @@ import sys
 import os
 
 from timeit import default_timer as timer
-from package.VideoStreamer import VideoStreamer
-from package.TrackerSetupUtils import *
-from package.Resources import *
-from package.Resources import ResMap
+from VideoStreamer import VideoStreamer
+from TrackerSetupUtils import *
+from Resources import *
 
 
 def start():

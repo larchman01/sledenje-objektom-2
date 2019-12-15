@@ -3,8 +3,8 @@ import numpy as np
 import os
 import pickle
 from math import sqrt
-from package.ObjectTracker import ObjectTracker
-from package.Resources import *
+from ObjectTracker import ObjectTracker
+from Resources import *
 
 
 def undistort(img):
