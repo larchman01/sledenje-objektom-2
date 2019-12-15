@@ -12,7 +12,7 @@ from Resources import *
 debug = False
 
 
-def startTracker(queue):
+def start(queue):
     # Load video
     cap = VideoStreamer()
     # cap.start(0)
@@ -114,4 +114,4 @@ def helpText():
 
 if __name__ == '__main__':
     main(sys.argv[1:])
-    startTracker(Queue())
+    start(Queue())

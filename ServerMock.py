@@ -8,7 +8,7 @@ if __name__ == '__main__':
     queue = Queue()
 
     # Creates Tracker process with multiprocess queue as argument
-    p = Process(target=Tracker.startTracker, args=(queue,))
+    p = Process(target=Tracker.start, args=(queue,))
 
     # Starts Tracker process
     p.start()
