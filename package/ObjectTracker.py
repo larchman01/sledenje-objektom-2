@@ -2,7 +2,7 @@
 import numpy as np
 from numpy.linalg import inv
 from math import atan2
-from Resources import ResKalmanFilter
+from package.Resources import ResKalmanFilter
 
 
 class ObjectTracker:

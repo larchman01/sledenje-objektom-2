@@ -8,6 +8,6 @@ setup(
     author="Jakob Maležič",
     author_email="jakob.malezic@gmail.com",
     license="unlicense",
-    packages=["sledenje-objektom-2"],
+    packages=["package"],
     zip_safe=False
 )
