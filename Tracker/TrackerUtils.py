@@ -5,8 +5,9 @@ from math import sqrt
 import cv2
 import numpy as np
 
+import Tracker
 from Tracker.ObjectTracker import ObjectTracker
-from Tracker.Resources import ResCamera, ResArucoDetector, ResFileNames, ResMap, ResGameLiveData, ResObjects, ResKeys
+from Tracker.Resources import ResCamera, ResArucoDetector, ResMap, ResGameLiveData, ResObjects, ResKeys
 
 
 def undistort(img):
@@ -53,8 +54,8 @@ def initState():
 
     quit = False
     configMap = ResMap()
-    if os.path.isfile(ResFileNames.mapConfigFilePath):
-        configMap = pickle.load(open(ResFileNames.mapConfigFilePath, "rb"))
+    if os.path.isfile(Tracker.Resources.ResFileNames.mapConfigFilePath):
+        configMap = pickle.load(open(Tracker.Resources.ResFileNames.mapConfigFilePath, "rb"))
     else:
         print("Can't open map configurations!")
         quit = True
