@@ -4,6 +4,7 @@ import getopt
 import sys
 from multiprocessing import Queue
 
+import cv2
 import cv2.aruco as aruco
 
 from Tracker.Resources import ResFileNames, ResGUIText
