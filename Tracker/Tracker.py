@@ -9,7 +9,7 @@ import cv2.aruco as aruco
 
 from Tracker.Resources import ResFileNames, ResGUIText
 from Tracker.TrackerSetupUtils import undistort
-from Tracker.TrackerUtils import initArucoParameters, initState, getMassCenter
+from Tracker.TrackerUtils import initArucoParameters, initState, getMassCenter, track
 from Tracker.VideoStreamer import VideoStreamer
 
 debug = False
