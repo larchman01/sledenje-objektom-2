@@ -9,5 +9,11 @@ setup(
     author_email="jakob.malezic@gmail.com",
     license="unlicense",
     packages=["Tracker"],
+    install_requires=[
+        'cv2',
+        'numpy',
+        'pickle',
+        'ujson'
+    ],
     zip_safe=False
 )
