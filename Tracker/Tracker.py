@@ -14,7 +14,7 @@ from Tracker.VideoStreamer import VideoStreamer
 debug = False
 
 
-def start(queue):
+def start(queue=Queue()):
     # Load video
     cap = VideoStreamer()
     # cap.start(0)
