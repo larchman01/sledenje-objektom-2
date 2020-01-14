@@ -4,10 +4,15 @@ import getopt
 from multiprocessing import Queue
 import sys
 import cv2.aruco as aruco
-from VideoStreamer import *
+# from VideoStreamer import *
+#
+# from TrackerUtils import *
+# from Resources import *
 
-from TrackerUtils import *
-from Resources import *
+from Tracker.Resources import ResFileNames, ResGUIText
+from Tracker.TrackerSetupUtils import undistort
+from Tracker.TrackerUtils import initArucoParameters, initState, getMassCenter
+from Tracker.VideoStreamer import VideoStreamer
 
 debug = False
 
