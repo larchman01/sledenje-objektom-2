@@ -3,8 +3,11 @@ import numpy as np
 import os
 import pickle
 from math import sqrt
-from ObjectTracker import ObjectTracker
-from Resources import *
+# from ObjectTracker import *
+# from Resources import *
+
+from Tracker.ObjectTracker import ObjectTracker
+from Tracker.Resources import ResCamera, ResArucoDetector, ResFileNames, ResMap, ResGameLiveData, ResObjects, ResKeys
 
 
 def undistort(img):

@@ -4,7 +4,7 @@ import getopt
 from multiprocessing import Queue
 import sys
 import cv2.aruco as aruco
-from VideoStreamer import VideoStreamer
+from VideoStreamer import *
 
 from TrackerUtils import *
 from Resources import *
