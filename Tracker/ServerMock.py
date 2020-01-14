@@ -1,5 +1,5 @@
-from multiprocessing import Process, Queue
 import time
+from multiprocessing import Process, Queue
 
 from Tracker import Tracker
 

@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-# from Resources import *
 
 from Tracker.Resources import ResCamera, ResGUIText, ResKeys, ResMap
 
@@ -71,10 +70,10 @@ def drawOverlay(frame, configMap, fieldEditMode):
     for i in range(len(configMap.fieldCorners)):
         cv2.circle(frame, tuple(configMap.fieldCorners[i]), 3, (0, 255, 255), 3)
         if i % 4 == 3:
-            cv2.line(frame, tuple(configMap.fieldCorners[i-1]), tuple(configMap.fieldCorners[i]), (0, 255, 255), 2)
-            cv2.line(frame, tuple(configMap.fieldCorners[i-3]), tuple(configMap.fieldCorners[i]), (0, 255, 255), 2)
+            cv2.line(frame, tuple(configMap.fieldCorners[i - 1]), tuple(configMap.fieldCorners[i]), (0, 255, 255), 2)
+            cv2.line(frame, tuple(configMap.fieldCorners[i - 3]), tuple(configMap.fieldCorners[i]), (0, 255, 255), 2)
         elif i > 0 and i % 4 != 0:
-            cv2.line(frame, tuple(configMap.fieldCorners[i-1]), tuple(configMap.fieldCorners[i]), (0, 255, 255), 2)
+            cv2.line(frame, tuple(configMap.fieldCorners[i - 1]), tuple(configMap.fieldCorners[i]), (0, 255, 255), 2)
 
     # Display info when in map edit mode
     if fieldEditMode:
@@ -117,7 +116,7 @@ def parseFields(configMap):
         index = i * 4
         configMap.fields[field] = {
             "topLeft": configMap.fieldCorners[index],
-            "topRight": configMap.fieldCorners[index+1],
-            "bottomLeft": configMap.fieldCorners[index+2],
-            "bottomRight": configMap.fieldCorners[index+3]
+            "topRight": configMap.fieldCorners[index + 1],
+            "bottomLeft": configMap.fieldCorners[index + 2],
+            "bottomRight": configMap.fieldCorners[index + 3]
         }

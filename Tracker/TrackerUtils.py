@@ -1,10 +1,9 @@
-import cv2
-import numpy as np
 import os
 import pickle
 from math import sqrt
-# from ObjectTracker import *
-# from Resources import *
+
+import cv2
+import numpy as np
 
 from Tracker.ObjectTracker import ObjectTracker
 from Tracker.Resources import ResCamera, ResArucoDetector, ResFileNames, ResMap, ResGameLiveData, ResObjects, ResKeys

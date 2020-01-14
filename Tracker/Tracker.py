@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 """Main tracker Script"""
 import getopt
-from multiprocessing import Queue
 import sys
+from multiprocessing import Queue
+
 import cv2.aruco as aruco
-# from VideoStreamer import *
-#
-# from TrackerUtils import *
-# from Resources import *
 
 from Tracker.Resources import ResFileNames, ResGUIText
 from Tracker.TrackerSetupUtils import undistort
@@ -86,7 +83,6 @@ def start(queue):
 
 
 def main(argv):
-
     try:
         opts, args = getopt.getopt(argv, "hs:cd", ["videoSource="])
     except getopt.GetoptError:

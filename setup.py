@@ -10,7 +10,8 @@ setup(
     license="unlicense",
     packages=["Tracker"],
     install_requires=[
-        'opencv-contrib-python'
+        'opencv-contrib-python',
+        'ujson'
     ],
     zip_safe=False
 )

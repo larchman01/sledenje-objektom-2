@@ -1,8 +1,8 @@
 """Provides ObjectTracker class which implements Kalman filter"""
+from math import atan2
+
 import numpy as np
 from numpy.linalg import inv
-from math import atan2
-# from Resources import *
 
 from Tracker.Resources import ResKalmanFilter
 

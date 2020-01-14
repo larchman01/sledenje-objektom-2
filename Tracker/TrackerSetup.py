@@ -1,12 +1,8 @@
 import getopt
+import os
 import pickle
 import sys
-import os
-
 from timeit import default_timer as timer
-# from VideoStreamer import *
-# from TrackerSetupUtils import *
-# from Resources import *
 
 from Tracker.Resources import ResFileNames, ResMap, ResGUIText
 from Tracker.VideoStreamer import VideoStreamer
@@ -49,7 +45,6 @@ def start():
             # Dump latest map into file
             if fieldEditMode:
                 if len(configMap.fieldCorners) == ResGUIText.numOfCorners:
-
                     parseFields(configMap)
 
                     with open(ResFileNames.mapConfigFilePath, 'wb') as output:
@@ -79,7 +74,6 @@ def start():
 
 
 def main(argv):
-
     try:
         opts, args = getopt.getopt(argv, "hs:c", ["videoSource="])
     except getopt.GetoptError:
