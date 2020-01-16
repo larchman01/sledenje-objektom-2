@@ -8,10 +8,11 @@ setup(
     author="Jakob Maležič",
     author_email="jakob.malezic@gmail.com",
     license="unlicense",
-    packages=["Tracker"],
+    packages=["sledilnik"],
     install_requires=[
         'opencv-contrib-python',
-        'ujson', 'numpy'
+        'ujson',
+        'numpy'
     ],
     zip_safe=False
 )
