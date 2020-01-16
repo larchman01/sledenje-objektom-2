@@ -2,8 +2,9 @@
 from math import atan2
 
 import numpy as np
-from Resources import ResKalmanFilter
 from numpy.linalg import inv
+
+from sledilnik.Resources import ResKalmanFilter
 
 
 class ObjectTracker:
