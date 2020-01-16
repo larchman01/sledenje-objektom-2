@@ -1,14 +1,16 @@
 import time
 from multiprocessing import Process, Queue
 
-from Tracker import Tracker
+import sledilnik
 
 if __name__ == '__main__':
 
     queue = Queue()
 
     # Creates Tracker process with multiprocess queue as argument
-    p = Process(target=Tracker.start, args=(queue,))
+    sledilnik.ResFileNames.videoSource = 'ROBO_3.mp4'
+    sledilnik.debug = True
+    p = Process(target=sledilnik.start, args=(queue,))
 
     # Starts Tracker process
     p.start()

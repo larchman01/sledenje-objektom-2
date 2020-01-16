@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="sledenje-objektom-2",
-    version="0.0.2",
+    version="0.0.3",
     description="sledenje-objektom-2",
     url="git@github.com:RoboLiga/sledenje-objektom-2.git",
     author="Jakob Maležič",
@@ -11,7 +11,7 @@ setup(
     packages=["Tracker"],
     install_requires=[
         'opencv-contrib-python',
-        'ujson'
+        'ujson', 'numpy'
     ],
     zip_safe=False
 )

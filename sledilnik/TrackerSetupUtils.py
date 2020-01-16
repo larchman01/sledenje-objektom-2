@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from Tracker.Resources import ResCamera, ResGUIText, ResKeys, ResMap
+from sledilnik.Resources import ResCamera, ResGUIText, ResKeys, ResMap
 
 
 def undistort(img):
