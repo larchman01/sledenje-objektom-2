@@ -11,78 +11,87 @@ from sledilnik.Resources import ResFileNames, ResGUIText
 from sledilnik.TrackerUtils import initArucoParameters, initState, undistort, getMassCenter, track
 from sledilnik.VideoStreamer import VideoStreamer
 
-debug = False
+
+class Tracker:
+    def __init__(self):
+        self.__debug = False
+        self.__videoSource = ResFileNames.videoSource
+
+    def setDebug(self):
+        self.__debug = not self.__debug
+
+    def setVideoSource(self, videoSource):
+        self.__videoSource = videoSource
+
+    def start(self, queue=Queue()):
+        # Load video
+        cap = VideoStreamer()
+        cap.start(self.__videoSource)
+
+        # Setting up aruco tags
+        aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
+
+        # Set aruco detector parameters
+        arucoParameters = aruco.DetectorParameters_create()
+        initArucoParameters(arucoParameters)
+
+        # Initialize tracker stat variables
+        configMap, quit, objects, frameCounter, gameData = initState()
+
+        # Create window
+        cv2.namedWindow(ResGUIText.sWindowName, cv2.WINDOW_NORMAL)
+        # cv2.resizeWindow(ResGUIText.sWindowName, 2000,1000)
+
+        while not quit:
+
+            # Load frame-by-frame
+
+            # ret, frame = cap.read()
+            if cap.running:
+                frame = cap.read()
+
+                # if ret:
+                # Convert to grayscale for Aruco detection
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                frameCounter = frameCounter + 1
+
+                # Undistort image
+                frame = undistort(frame)
+                configMap.imageHeight, configMap.imageWidth = frame.shape
+                frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+
+                # Detect markers
+                cornersTracked, ids, rejectedImgPoints = aruco.detectMarkers(frame, aruco_dict,
+                                                                             parameters=arucoParameters)
+
+                # Compute mass centers and orientation
+                pointsTracked = getMassCenter(cornersTracked, ids, configMap)
+
+                # Detect Validate and track objects on map
+                track(pointsTracked, objects, frameCounter)
+
+                # Write game data to file
+                gameData.write(objects)
+
+                queue.put(gameData)
+
+                cv2.waitKey(1)
+
+                if self.__debug:
+                    # Draw GUI and objects
+                    frame = aruco.drawDetectedMarkers(frame, cornersTracked, ids)
+                    # Show frame
+                    cv2.imshow(ResGUIText.sWindowName, frame)
+
+            else:
+                break
+
+        # When everything done, release the capture
+        cv2.destroyAllWindows()
+        sys.exit(0)
 
 
-def start(queue=Queue()):
-    # Load video
-    cap = VideoStreamer()
-    # cap.start(0)
-    cap.start(ResFileNames.videoSource)
-
-    # Setting up aruco tags
-    aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
-
-    # Set aruco detector parameters
-    arucoParameters = aruco.DetectorParameters_create()
-    initArucoParameters(arucoParameters)
-
-    # Initialize tracker stat variables
-    configMap, quit, objects, frameCounter, gameData = initState()
-
-    # Create window
-    cv2.namedWindow(ResGUIText.sWindowName, cv2.WINDOW_NORMAL)
-    # cv2.resizeWindow(ResGUIText.sWindowName, 2000,1000)
-
-    while not quit:
-
-        # Load frame-by-frame
-
-        # ret, frame = cap.read()
-        if cap.running:
-            frame = cap.read()
-
-            # if ret:
-            # Convert to grayscale for Aruco detection
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            frameCounter = frameCounter + 1
-
-            # Undistort image
-            frame = undistort(frame)
-            configMap.imageHeight, configMap.imageWidth = frame.shape
-            frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
-
-            # Detect markers
-            cornersTracked, ids, rejectedImgPoints = aruco.detectMarkers(frame, aruco_dict, parameters=arucoParameters)
-
-            # Compute mass centers and orientation
-            pointsTracked = getMassCenter(cornersTracked, ids, configMap)
-
-            # Detect Validate and track objects on map
-            track(pointsTracked, objects, frameCounter)
-
-            # Write game data to file
-            gameData.write(objects)
-
-            queue.put(gameData)
-
-            cv2.waitKey(1)
-
-            if debug:
-                # Draw GUI and objects
-                frame = aruco.drawDetectedMarkers(frame, cornersTracked, ids)
-                # Show frame
-                cv2.imshow(ResGUIText.sWindowName, frame)
-
-        else:
-            break
-
-    # When everything done, release the capture
-    cv2.destroyAllWindows()
-    sys.exit(0)
-
-
-def main(argv):
+def main(argv, tracker: Tracker):
     try:
         opts, args = getopt.getopt(argv, "hs:cd", ["videoSource="])
     except getopt.GetoptError:
@@ -93,14 +102,13 @@ def main(argv):
             helpText()
             sys.exit()
         elif opt in ("-c", "--camera"):
-            ResFileNames.videoSource = 0
-            print("Set video source to: " + str(ResFileNames.videoSource))
+            tracker.setVideoSource(0)
+            print("Set video source to: 0")
         elif opt in ("-s", "--videoSource"):
-            ResFileNames.videoSource = arg
-            print("Set video source to: " + str(ResFileNames.videoSource))
+            tracker.setVideoSource(arg)
+            print("Set video source to: " + str(arg))
         elif opt in ("-d", "--debug"):
-            global debug
-            debug = True
+            tracker.setDebug()
 
 
 def helpText():
@@ -114,5 +122,6 @@ def helpText():
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
-    start(Queue())
+    tracker = Tracker()
+    main(sys.argv[1:], tracker)
+    tracker.start(Queue())
