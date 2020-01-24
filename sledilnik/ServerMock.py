@@ -1,25 +1,18 @@
-import time
-from multiprocessing import Process, Queue
+from multiprocessing import Process, Queue, freeze_support
 
-import sledilnik
+from sledilnik.Tracker import Tracker
 
 if __name__ == '__main__':
-
+    freeze_support()
     queue = Queue()
 
-    # Creates Tracker process with multiprocess queue as argument
-    sledilnik.ResFileNames.videoSource = 'ROBO_3.mp4'
-    sledilnik.debug = True
-    p = Process(target=sledilnik.start, args=(queue,))
+    tracker = Tracker()
+    tracker.setVideoSource('ROBO_3.mp4')
+    tracker.setDebug()
 
-    # Starts Tracker process
+    p = Process(target=tracker.start, args=(queue,))
     p.start()
 
-    # Prints array
-    times = []
-    start = time.perf_counter()
     for _ in range(100):
         gameData = queue.get()
-
-    end = time.perf_counter()
-    print(f"average time: {round((end - start) / 100, 3)}")
+        print(gameData)
