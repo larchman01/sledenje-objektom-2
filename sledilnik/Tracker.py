@@ -51,12 +51,12 @@ class Tracker:
                 frame = cap.read()
 
                 if frame is None:
-                    while not queue.empty():
-                        try:
-                            queue.get(timeout=0.001)
-                        except:
-                            pass
-                    queue.close()
+                    # while not queue.empty():
+                    #     try:
+                    #         queue.get(timeout=0.001)
+                    #     except:
+                    #         pass
+                    # queue.close()
                     break
 
                 # if ret:
