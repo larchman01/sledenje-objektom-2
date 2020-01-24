@@ -50,6 +50,15 @@ class Tracker:
             if cap.running:
                 frame = cap.read()
 
+                if frame is None:
+                    while not queue.empty():
+                        try:
+                            queue.get(timeout=0.001)
+                        except:
+                            pass
+                    queue.close()
+                    break
+
                 # if ret:
                 # Convert to grayscale for Aruco detection
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
