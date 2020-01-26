@@ -1,3 +1,5 @@
+from typing import Dict
+
 import ujson
 
 
@@ -117,7 +119,7 @@ class MovableObject:
 class GameLiveData:
     def __init__(self, configMap):
         self.fields = configMap.fields
-        self.objects = {}
+        self.objects: Dict[int, MovableObject] = {}
 
     def write(self, objects):
         self.objects.clear()
@@ -127,7 +129,7 @@ class GameLiveData:
     def reprJSON(self):
         return {
             "fields": self.fields,
-            "objects": self.objects
+            "objects": {objectId: mObject.reprJSON() for objectId, mObject in self.objects.items()}
         }
 
 
