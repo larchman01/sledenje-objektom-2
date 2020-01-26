@@ -129,7 +129,7 @@ class GameLiveData:
     def reprJSON(self):
         return {
             "fields": self.fields,
-            "objects": {objectId: mObject.reprJSON() for objectId, mObject in self.objects.items()}
+            "objects": {str(objectId): mObject.reprJSON() for objectId, mObject in self.objects.items()}
         }
 
 
