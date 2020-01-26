@@ -7,7 +7,7 @@ import numpy as np
 
 import sledilnik
 from sledilnik.ObjectTracker import ObjectTracker
-from sledilnik.Resources import ResCamera, ResArucoDetector, ResMap, ResGameLiveData, ResObjects, ResKeys
+from sledilnik.Resources import ResCamera, ResArucoDetector, ResMap, GameLiveData, ResObjects, ResKeys
 
 
 def undistort(img):
@@ -61,7 +61,7 @@ def initState():
         quit = True
     objects = dict()
     frameCounter = 0
-    gameData = ResGameLiveData(configMap)
+    gameData = GameLiveData(configMap)
 
     return configMap, quit, objects, frameCounter, gameData
 
@@ -232,7 +232,7 @@ def processKeys(configMap, fieldEditMode, quit):
 
 
 def writeGameData(configMap, objects):
-    gameData = ResGameLiveData()
+    gameData = GameLiveData()
     gameData.fields = configMap.fields
     gameData.objects = {}
     return gameData
