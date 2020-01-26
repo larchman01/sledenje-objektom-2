@@ -101,14 +101,13 @@ class ResMap:
 
 
 class MovableObject:
-    def __init__(self, id, x, y, dir):
-        self.id = id
+    def __init__(self, x, y, dir):
         self.x = x
         self.y = y
         self.direction = dir
 
     def reprJSON(self):
-        return dict(id=self.id, x=self.x, y=self.y, dir=self.direction)
+        return dict(x=self.x, y=self.y, dir=self.direction)
 
 
 class GameLiveData:
@@ -118,8 +117,8 @@ class GameLiveData:
 
     def write(self, objects):
         self.objects.clear()
-        for id, obj in objects.items():
-            self.objects[id] = MovableObject(id, obj.position[0], obj.position[1], obj.direction)
+        for idObject, obj in objects.items():
+            self.objects[idObject] = MovableObject(obj.position[0], obj.position[1], obj.direction)
 
     def reprJSON(self):
         return dict(fields=self.fields, objects=self.objects)
