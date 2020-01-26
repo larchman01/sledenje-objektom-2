@@ -115,8 +115,20 @@ def parseFields(configMap):
     for i, field in enumerate(ResGUIText.fields):
         index = i * 4
         configMap.fields[field] = {
-            "topLeft": configMap.fieldCorners[index],
-            "topRight": configMap.fieldCorners[index + 1],
-            "bottomLeft": configMap.fieldCorners[index + 2],
-            "bottomRight": configMap.fieldCorners[index + 3]
+            "topLeft": {
+                "x": configMap.fieldCorners[index][0],
+                "y": configMap.fieldCorners[index][1]
+            },
+            "topRight": {
+                "x": configMap.fieldCorners[index + 1][0],
+                "y": configMap.fieldCorners[index + 1][1]
+            },
+            "bottomLeft": {
+                "x": configMap.fieldCorners[index + 2][0],
+                "y": configMap.fieldCorners[index + 2][1]
+            },
+            "bottomRight": {
+                "x": configMap.fieldCorners[index + 3][0],
+                "y": configMap.fieldCorners[index + 3][1]
+            }
         }
