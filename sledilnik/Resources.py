@@ -130,16 +130,18 @@ class GameLiveData:
             "objects": self.objects
         }
 
-    class ResKalmanFilter:
-        """Stores Kalman Filter configs"""
-        dt = 1  # Sampling rate
-        u = 0.0  # Acceleration magnitude
-        accNoiseMag = 0.003
-        measurementNoiseX = 0.6
-        measurementNoiseY = 0.6
 
-    class ResObjects:
-        """Stores Object configs"""
-        ObjectTimeout = 50
-        PosLimitX = [-50, 3600]
-        PosLimitY = [-50, 2100]
+class ResKalmanFilter:
+    """Stores Kalman Filter configs"""
+    dt = 1  # Sampling rate
+    u = 0.0  # Acceleration magnitude
+    accNoiseMag = 0.003
+    measurementNoiseX = 0.6
+    measurementNoiseY = 0.6
+
+
+class ResObjects:
+    """Stores Object configs"""
+    ObjectTimeout = 50
+    PosLimitX = [-50, 3600]
+    PosLimitY = [-50, 2100]
