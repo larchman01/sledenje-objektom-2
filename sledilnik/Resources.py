@@ -107,7 +107,11 @@ class MovableObject:
         self.direction = dir
 
     def reprJSON(self):
-        return dict(x=self.x, y=self.y, dir=self.direction)
+        return {
+            "x": self.x,
+            "y": self.y,
+            "dir": self.direction
+        }
 
 
 class GameLiveData:
@@ -121,20 +125,21 @@ class GameLiveData:
             self.objects[idObject] = MovableObject(obj.position[0], obj.position[1], obj.direction)
 
     def reprJSON(self):
-        return dict(fields=self.fields, objects=self.objects)
+        return {
+            "fields": self.fields,
+            "objects": self.objects
+        }
 
+    class ResKalmanFilter:
+        """Stores Kalman Filter configs"""
+        dt = 1  # Sampling rate
+        u = 0.0  # Acceleration magnitude
+        accNoiseMag = 0.003
+        measurementNoiseX = 0.6
+        measurementNoiseY = 0.6
 
-class ResKalmanFilter:
-    """Stores Kalman Filter configs"""
-    dt = 1  # Sampling rate
-    u = 0.0  # Acceleration magnitude
-    accNoiseMag = 0.003
-    measurementNoiseX = 0.6
-    measurementNoiseY = 0.6
-
-
-class ResObjects:
-    """Stores Object configs"""
-    ObjectTimeout = 50
-    PosLimitX = [-50, 3600]
-    PosLimitY = [-50, 2100]
+    class ResObjects:
+        """Stores Object configs"""
+        ObjectTimeout = 50
+        PosLimitX = [-50, 3600]
+        PosLimitY = [-50, 2100]
