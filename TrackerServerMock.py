@@ -1,14 +1,14 @@
 from multiprocessing import Process, Queue, freeze_support
 
-from sledilnik.Tracker import Tracker
+from sledilnik.TrackerGame import TrackerGame
 
 if __name__ == '__main__':
     freeze_support()
     queue = Queue()
 
-    tracker = Tracker()
-    tracker.setVideoSource('ROBO_3.mp4')
-    tracker.setDebug()
+    tracker = TrackerGame()
+    tracker.fileNamesConfig.videoSource = 'ROBO_3.mp4'
+    tracker.debug = True
 
     p = Process(target=tracker.start, args=(queue,))
     p.start()

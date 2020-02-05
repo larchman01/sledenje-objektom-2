@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="sledenje-objektom-2",
-    version="0.0.11",
+    version="0.0.12",
     description="sledenje-objektom-2",
     url="git@github.com:RoboLiga/sledenje-objektom-2.git",
     author="Jakob Maležič",

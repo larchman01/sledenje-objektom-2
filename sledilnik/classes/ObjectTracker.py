@@ -4,13 +4,13 @@ from math import atan2
 import numpy as np
 from numpy.linalg import inv
 
-from sledilnik.Resources import ResKalmanFilter
+from sledilnik.configs.KalmanFilterConfig import KalmanFilterConfig
 
 
 class ObjectTracker:
     """Tracks object using Kalman filter"""
 
-    def __init__(self, id, position, velocity, accel=(0, 0, 0, 0)):
+    def __init__(self, id, position, velocity, resKalmanFilter: KalmanFilterConfig, accel=(0, 0, 0, 0)):
         # self.type = type
         self.id = id
         self.position = position
@@ -20,11 +20,11 @@ class ObjectTracker:
         self.Q2 = np.array([[position[2]], [position[3]], [velocity[2]], [velocity[3]], [accel[2]], [accel[3]]])
         self.Qestimate = self.Q
         self.Qestimate2 = self.Q2
-        self.accNoiseMag = ResKalmanFilter.accNoiseMag
-        self.dt = ResKalmanFilter.dt
-        self.u = ResKalmanFilter.u
-        self.measurementNoiseX = ResKalmanFilter.measurementNoiseX
-        self.measurementNoiseY = ResKalmanFilter.measurementNoiseY
+        self.accNoiseMag = resKalmanFilter.accNoiseMag
+        self.dt = resKalmanFilter.dt
+        self.u = resKalmanFilter.u
+        self.measurementNoiseX = resKalmanFilter.measurementNoiseX
+        self.measurementNoiseY = resKalmanFilter.measurementNoiseY
         self.detected = True
         self.enabled = True
         self.last_seen = 0
@@ -39,15 +39,15 @@ class ObjectTracker:
                             [0, self.dt ** 3 / 6, 0, self.dt ** 2 / 2, 0, self.dt]]) * self.accNoiseMag ** 2 / 3
         self.P = self.Ex
         self.P2 = self.Ex
-        self.A = np.array([[1, 0, self.dt, 0, self.dt ** 2 / 2, 0], \
-                           [0, 1, 0, self.dt, 0, self.dt ** 2 / 2], \
-                           [0, 0, 1, 0, self.dt, 0], \
-                           [0, 0, 0, 1, 0, self.dt], \
-                           [0, 0, 0, 0, 1, 0], \
+        self.A = np.array([[1, 0, self.dt, 0, self.dt ** 2 / 2, 0],
+                           [0, 1, 0, self.dt, 0, self.dt ** 2 / 2],
+                           [0, 0, 1, 0, self.dt, 0],
+                           [0, 0, 0, 1, 0, self.dt],
+                           [0, 0, 0, 0, 1, 0],
                            [0, 0, 0, 0, 0, 1]])
-        self.B = np.array([[self.dt ** 2 / 2], \
-                           [self.dt ** 2 / 2], \
-                           [self.dt], \
+        self.B = np.array([[self.dt ** 2 / 2],
+                           [self.dt ** 2 / 2],
+                           [self.dt],
                            [self.dt]])
         self.C = np.array([[1, 0, 0, 0, 0, 0], \
                            [0, 1, 0, 0, 0, 0]])

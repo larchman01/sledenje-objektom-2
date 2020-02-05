@@ -21,7 +21,7 @@ class VideoStreamer:
         self.video = cv2.VideoCapture(src)
         if not self.video.isOpened():
             # Camera failed
-            raise IOError(("Couldn't open video file or webcam."))
+            raise IOError("Couldn't open video file or webcam.")
         self.ret, self.frame = self.video.read()
         if not self.ret:
             self.video.release()

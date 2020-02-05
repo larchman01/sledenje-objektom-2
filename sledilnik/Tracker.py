@@ -1,136 +1,73 @@
-#!/usr/bin/env python
-"""Main tracker Script"""
-import getopt
-import sys
-from multiprocessing import Queue
-
 import cv2
-import cv2.aruco as aruco
+import numpy as np
 
-from sledilnik.Resources import ResFileNames, ResGUIText
-from sledilnik.TrackerUtils import initArucoParameters, initState, undistort, getMassCenter, track
-from sledilnik.VideoStreamer import VideoStreamer
+from sledilnik.configs.ArucoDetectorConfig import ArucoDetectorConfig
+from sledilnik.configs.CameraConfig import CameraConfig
+from sledilnik.configs.FileNamesConfig import FileNamesConfig
+from sledilnik.configs.KalmanFilterConfig import KalmanFilterConfig
+from sledilnik.configs.ObjectsConfig import ObjectsConfig
 
 
 class Tracker:
     def __init__(self):
-        self.__debug = False
-        self.__videoSource = ResFileNames.videoSource
+        self.arucoDetectorConfig = ArucoDetectorConfig()
+        self.cameraConfig = CameraConfig()
+        self.fileNamesConfig = FileNamesConfig()
+        self.kalmanFilterConfig = KalmanFilterConfig()
+        self.objectsConfig = ObjectsConfig()
 
-    def setDebug(self):
-        self.__debug = not self.__debug
+    def undistort(self, img):
+        # Camera parameters
+        k1 = self.cameraConfig.k1
+        k2 = self.cameraConfig.k2
+        k3 = self.cameraConfig.k3
+        p1 = self.cameraConfig.p1
+        p2 = self.cameraConfig.p2
+        fx = self.cameraConfig.fx
+        fy = self.cameraConfig.fy
+        cx = self.cameraConfig.cx
+        cy = self.cameraConfig.cy
+        dist = np.array([k1, k2, p1, p2, k3])
+        mtx = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]])
 
-    def setVideoSource(self, videoSource):
-        self.__videoSource = videoSource
+        # Setting the params
+        h, w = img.shape[:2]
+        newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
 
-    def start(self, queue=Queue()):
-        # Load video
-        cap = VideoStreamer()
-        cap.start(self.__videoSource)
+        # Undistort
+        mapx, mapy = cv2.initUndistortRectifyMap(mtx, dist, None, newcameramtx, (w, h), 5)
+        dst = cv2.remap(img, mapx, mapy, cv2.INTER_LINEAR)
 
-        # Setting up aruco tags
-        aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_100)
+        # Crop the image
+        x, y, w, h = roi
+        dst = dst[y:y + h, x:x + w]
+        return dst
 
-        # Set aruco detector parameters
-        arucoParameters = aruco.DetectorParameters_create()
-        initArucoParameters(arucoParameters)
-
-        # Initialize tracker stat variables
-        configMap, quit, objects, frameCounter, gameData = initState()
-
-        # Create window
-        cv2.namedWindow(ResGUIText.sWindowName, cv2.WINDOW_NORMAL)
-        # cv2.resizeWindow(ResGUIText.sWindowName, 2000,1000)
-
-        while not quit:
-
-            # Load frame-by-frame
-
-            # ret, frame = cap.read()
-            if cap.running:
-                frame = cap.read()
-
-                if frame is None:
-                    # while not queue.empty():
-                    #     try:
-                    #         queue.get(timeout=0.001)
-                    #     except:
-                    #         pass
-                    # queue.close()
-                    break
-
-                # if ret:
-                # Convert to grayscale for Aruco detection
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                frameCounter = frameCounter + 1
-
-                # Undistort image
-                frame = undistort(frame)
-                configMap.imageHeight, configMap.imageWidth = frame.shape
-                frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
-
-                # Detect markers
-                cornersTracked, ids, rejectedImgPoints = aruco.detectMarkers(frame, aruco_dict,
-                                                                             parameters=arucoParameters)
-
-                # Compute mass centers and orientation
-                pointsTracked = getMassCenter(cornersTracked, ids, configMap)
-
-                # Detect Validate and track objects on map
-                track(pointsTracked, objects, frameCounter)
-
-                # Write game data to file
-                gameData.write(objects)
-
-                queue.put(gameData)
-
-                cv2.waitKey(1)
-
-                if self.__debug:
-                    # Draw GUI and objects
-                    frame = aruco.drawDetectedMarkers(frame, cornersTracked, ids)
-                    # Show frame
-                    cv2.imshow(ResGUIText.sWindowName, frame)
-
-            else:
-                break
-
-        # When everything done, release the capture
-        cv2.destroyAllWindows()
-        sys.exit(0)
-
-
-def main(argv, tracker: Tracker):
-    try:
-        opts, args = getopt.getopt(argv, "hs:cd", ["videoSource="])
-    except getopt.GetoptError:
-        helpText()
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            helpText()
-            sys.exit()
-        elif opt in ("-c", "--camera"):
-            tracker.setVideoSource(0)
-            print("Set video source to: 0")
-        elif opt in ("-s", "--videoSource"):
-            tracker.setVideoSource(arg)
-            print("Set video source to: " + str(arg))
-        elif opt in ("-d", "--debug"):
-            tracker.setDebug()
-
-
-def helpText():
-    print("usage:")
-    print("\t-s <videoSource>            sets video source")
-    print("\t--videoSource <videoSource> sets video source")
-    print("\t-c                          sets camera as video source")
-    print("\t--camera                    sets camera as video source")
-    print("\t-d                          turns on debug mode")
-    print("\t--debug                     turns on debug mode")
-
-
-if __name__ == '__main__':
-    tracker = Tracker()
-    main(sys.argv[1:], tracker)
-    tracker.start(Queue())
+    # def reverseCorrect(self, x, y, map):
+    #     """Reverses the correction of the coordinates.
+    #     Scale0 and scale1 define scaling constants. The scaling factor is a linear function of distance from center.
+    #     Args:
+    #         x (int): x coordinate
+    #         y (int): y coordinate
+    #         map (ResMap) : map object
+    #     Returns:
+    #         Tuple[int, int]: Reverted coordinates
+    #     """
+    #
+    #     # Scaling factors
+    #     scale0 = self.cameraConfig.scale0
+    #     scale1 = self.cameraConfig.scale1
+    #
+    #     # Convert screen coordinates to 0-based coordinates
+    #     offset_x = map.imageWidth / 2
+    #     offset_y = map.imageHeighth / 2
+    #
+    #     # Calculate distance from center
+    #     dist = np.sqrt((x - offset_x) ** 2 + (y - offset_y) ** 2)
+    #
+    #     # Find the distance before correction
+    #     distOld = (-scale0 + np.sqrt(scale0 ** 2 + 4 * dist * scale1)) / (2 * scale1)
+    #
+    #     # Revert coordinates and return
+    #     return (int(round((x - offset_x) / (scale0 + scale1 * distOld) + offset_x)),
+    #             int(round((y - offset_y) / (scale0 + scale1 * distOld) + offset_y)))
