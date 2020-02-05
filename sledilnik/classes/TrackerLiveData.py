@@ -3,7 +3,7 @@ from typing import Dict
 from sledilnik.classes.MovableObject import MovableObject
 
 
-class GameLiveData:
+class TrackerLiveData:
     def __init__(self, configMap):
         self.fields = configMap.fields
         self.objects: Dict[int, MovableObject] = {}

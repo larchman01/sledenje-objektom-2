@@ -12,8 +12,8 @@ import numpy as np
 
 from .Resources import ResGUIText, ResKeys
 from .Tracker import Tracker
-from .classes.GameLiveData import GameLiveData
 from .classes.ObjectTracker import ObjectTracker
+from .classes.TrackerLiveData import TrackerLiveData
 from .classes.VideoStreamer import VideoStreamer
 from .configs.MapConfig import MapConfig
 
@@ -32,7 +32,7 @@ class TrackerGame(Tracker):
             print("Can't open map configurations!")
             quit = True
         frameCounter = 0
-        gameData = GameLiveData(configMap)
+        gameData = TrackerLiveData(configMap)
 
         return configMap, quit, frameCounter, gameData
 

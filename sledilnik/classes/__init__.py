@@ -1,1 +1,1 @@
-__all__ = ["GameLiveData", "MovableObject", "ObjectTracker", "VideoStreamer"]
+__all__ = ["TrackerLiveData", "MovableObject", "ObjectTracker", "VideoStreamer"]
