@@ -1,6 +1,7 @@
 from multiprocessing import Process, Queue, freeze_support
 
 from sledilnik.TrackerGame import TrackerGame
+from sledilnik.classes.TrackerLiveData import TrackerLiveData
 
 if __name__ == '__main__':
     freeze_support()
@@ -14,5 +15,5 @@ if __name__ == '__main__':
     p.start()
 
     for _ in range(100):
-        gameData = queue.get()
-        print(gameData)
+        gameData: TrackerLiveData = queue.get()
+        print(gameData.reprJSON())

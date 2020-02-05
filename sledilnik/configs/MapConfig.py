@@ -1,3 +1,7 @@
+from sledilnik.classes.Field import Field
+from sledilnik.classes.Point import Point
+
+
 class MapConfig:
     """Stores Map configs"""
 
@@ -12,21 +16,9 @@ class MapConfig:
     def parseFields(self, fields):
         for i, field in enumerate(fields):
             index = i * 4
-            self.fields[field] = {
-                "topLeft": {
-                    "x": self.fieldCorners[index][0],
-                    "y": self.fieldCorners[index][1]
-                },
-                "topRight": {
-                    "x": self.fieldCorners[index + 1][0],
-                    "y": self.fieldCorners[index + 1][1]
-                },
-                "bottomLeft": {
-                    "x": self.fieldCorners[index + 2][0],
-                    "y": self.fieldCorners[index + 2][1]
-                },
-                "bottomRight": {
-                    "x": self.fieldCorners[index + 3][0],
-                    "y": self.fieldCorners[index + 3][1]
-                }
-            }
+            self.fields[field] = Field(
+                Point(self.fieldCorners[index][0], self.fieldCorners[index][1]),
+                Point(self.fieldCorners[index + 1][0], self.fieldCorners[index + 1][1]),
+                Point(self.fieldCorners[index + 2][0], self.fieldCorners[index + 2][1]),
+                Point(self.fieldCorners[index + 3][0], self.fieldCorners[index + 3][1]),
+            )

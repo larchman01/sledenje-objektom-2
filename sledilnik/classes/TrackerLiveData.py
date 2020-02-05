@@ -15,6 +15,6 @@ class TrackerLiveData:
 
     def reprJSON(self):
         return {
-            "fields": self.fields,
+            "fields": {str(fieldId): field.reprJSON() for fieldId, field in self.fields.items()},
             "objects": {str(objectId): mObject.reprJSON() for objectId, mObject in self.objects.items()}
         }
