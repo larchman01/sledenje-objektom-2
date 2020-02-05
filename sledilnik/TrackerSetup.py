@@ -8,10 +8,10 @@ import cv2
 import numpy as np
 import ujson
 
-from sledilnik.Resources import ResGUIText, ResKeys
-from sledilnik.Tracker import Tracker
-from sledilnik.classes.VideoStreamer import VideoStreamer
-from sledilnik.configs.MapConfig import MapConfig
+from .Resources import ResGUIText, ResKeys
+from .Tracker import Tracker
+from .classes.VideoStreamer import VideoStreamer
+from .configs.MapConfig import MapConfig
 
 
 class TrackerSetup(Tracker):

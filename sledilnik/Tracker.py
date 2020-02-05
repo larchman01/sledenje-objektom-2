@@ -1,11 +1,11 @@
 import cv2
 import numpy as np
 
-from sledilnik.configs.ArucoDetectorConfig import ArucoDetectorConfig
-from sledilnik.configs.CameraConfig import CameraConfig
-from sledilnik.configs.FileNamesConfig import FileNamesConfig
-from sledilnik.configs.KalmanFilterConfig import KalmanFilterConfig
-from sledilnik.configs.ObjectsConfig import ObjectsConfig
+from .configs.ArucoDetectorConfig import ArucoDetectorConfig
+from .configs.CameraConfig import CameraConfig
+from .configs.FileNamesConfig import FileNamesConfig
+from .configs.KalmanFilterConfig import KalmanFilterConfig
+from .configs.ObjectsConfig import ObjectsConfig
 
 
 class Tracker:

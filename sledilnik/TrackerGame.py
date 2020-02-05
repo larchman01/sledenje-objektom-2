@@ -10,12 +10,12 @@ import cv2
 import cv2.aruco as aruco
 import numpy as np
 
-from sledilnik.Resources import ResGUIText, ResKeys
-from sledilnik.Tracker import Tracker
-from sledilnik.classes.GameLiveData import GameLiveData
-from sledilnik.classes.ObjectTracker import ObjectTracker
-from sledilnik.classes.VideoStreamer import VideoStreamer
-from sledilnik.configs.MapConfig import MapConfig
+from .Resources import ResGUIText, ResKeys
+from .Tracker import Tracker
+from .classes.GameLiveData import GameLiveData
+from .classes.ObjectTracker import ObjectTracker
+from .classes.VideoStreamer import VideoStreamer
+from .configs.MapConfig import MapConfig
 
 
 class TrackerGame(Tracker):
