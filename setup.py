@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="sledenje-objektom-2",
@@ -8,7 +8,7 @@ setup(
     author="Jakob Maležič",
     author_email="jakob.malezic@gmail.com",
     license="unlicense",
-    packages=["sledilnik"],
+    packages=find_packages(),
     install_requires=[
         'opencv-contrib-python',
         'ujson',
