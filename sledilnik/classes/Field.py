@@ -15,3 +15,11 @@ class Field:
             "bottomLeft": self.bottomLeft.reprJSON(),
             "bottomRight": self.bottomRight.reprJSON()
         }
+
+    def reprTuple(self) -> tuple:
+        return (
+            self.topLeft.reprTuple(),
+            self.topRight.reprTuple(),
+            self.bottomLeft.reprTuple(),
+            self.bottomRight.reprTuple()
+        )

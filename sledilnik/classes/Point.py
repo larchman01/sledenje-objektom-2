@@ -8,3 +8,6 @@ class Point:
             "x": self.x,
             "y": self.y,
         }
+
+    def reprTuple(self) -> tuple:
+        return self.x, self.y
