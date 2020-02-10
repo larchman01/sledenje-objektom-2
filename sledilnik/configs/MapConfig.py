@@ -10,7 +10,7 @@ class MapConfig:
         self.fields = {}
         self.imageWidth = 0
         self.imageHeighth = 0
-        self.fieldCornersVirtual = [[0, 200], [300, 200], [300, 0], [0, 0]]
+        self.fieldCornersVirtual = [[0, 2055], [3555, 2055], [3555, 0], [0, 0]]
         self.M = []
 
     def parseFields(self, fields):

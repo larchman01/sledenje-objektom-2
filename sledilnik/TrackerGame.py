@@ -193,16 +193,16 @@ class TrackerGame(Tracker):
                     break
 
                 # Convert to grayscale for Aruco detection
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 frameCounter = frameCounter + 1
 
                 # Undistort image
-                frame = self.undistort(frame)
-                configMap.imageHeight, configMap.imageWidth = frame.shape
-                frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+                sharpened = self.undistort(gray)
+                configMap.imageHeight, configMap.imageWidth = sharpened.shape
+                color = cv2.cvtColor(sharpened, cv2.COLOR_GRAY2BGR)
 
                 # Detect markers
-                cornersTracked, ids, rejectedImgPoints = aruco.detectMarkers(frame, aruco_dict,
+                cornersTracked, ids, rejectedImgPoints = aruco.detectMarkers(sharpened, aruco_dict,
                                                                              parameters=arucoParameters)
 
                 # Compute mass centers and orientation
@@ -211,7 +211,7 @@ class TrackerGame(Tracker):
                 # Detect Validate and track objects on map
                 self.track(pointsTracked, objects, frameCounter)
 
-                # Write game data to file
+                # Write game data
                 gameData.write(objects)
 
                 queue.put(gameData)
@@ -220,9 +220,9 @@ class TrackerGame(Tracker):
 
                 if self.debug:
                     # Draw GUI and objects
-                    frame = aruco.drawDetectedMarkers(frame, cornersTracked, ids)
+                    frame_markers = aruco.drawDetectedMarkers(color.copy(), cornersTracked, ids)
                     # Show frame
-                    cv2.imshow(ResGUIText.sWindowName, frame)
+                    cv2.imshow(ResGUIText.sWindowName, frame_markers)
 
             else:
                 break

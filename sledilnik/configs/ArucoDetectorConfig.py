@@ -2,7 +2,7 @@ class ArucoDetectorConfig:
     def __init__(self):
         # Min.  okno za binarizacijo.  Premajhno okno naredi celotne tage iste
         # barve
-        self.adaptiveThreshWinSizeMin = 13
+        self.adaptiveThreshWinSizeMin = 10
         # Max.  okno.  Preveliko okno prevec zaokrozi kote bitov na tagu
         self.adaptiveThreshWinSizeMax = 23
         # Dno za thresholding.  Prenizko dno povzroci prevec kandidatov, previsoko
