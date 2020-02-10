@@ -1,4 +1,5 @@
 import getopt
+import json
 import os
 import pickle
 import sys
@@ -6,7 +7,6 @@ from timeit import default_timer as timer
 
 import cv2
 import numpy as np
-import ujson
 
 from .Resources import ResGUIText, ResKeys
 from .Tracker import Tracker
@@ -19,7 +19,7 @@ class TrackerSetup(Tracker):
         super().__init__()
 
         with open(self.fileNamesConfig.fieldsFilePath, "r") as output:
-            self.fields = ujson.load(output)
+            self.fields = json.load(output)
 
         self.sFieldDefineGuide = []
         for field in self.fields:
