@@ -11,7 +11,7 @@ class TrackerLiveData:
     def write(self, objects):
         self.objects.clear()
         for idObject, obj in objects.items():
-            self.objects[idObject] = MovableObject(idObject, obj.position[0], obj.position[1], obj.direction)
+            self.objects[idObject] = MovableObject(idObject.item(), obj.position[0], obj.position[1], obj.direction)
 
     def reprJSON(self):
         return {
