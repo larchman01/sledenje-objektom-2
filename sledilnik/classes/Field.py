@@ -2,7 +2,7 @@ from sledilnik.classes.Point import Point
 
 
 class Field:
-    def __init__(self, bottomLeft: Point, topLeft: Point, topRight: Point, bottomRight: Point):
+    def __init__(self, topLeft: Point, topRight: Point, bottomRight: Point, bottomLeft: Point):
         self.topLeft = topLeft
         self.topRight = topRight
         self.bottomLeft = bottomLeft
