@@ -54,11 +54,11 @@ class Tracker:
             Tuple[int, int]: Corrected coordinates
         """
         # Translate coordinates if new origin exists (top left corner of map)
-        if len(map.fieldCorners) == 12:
-            sPoint = np.array([np.array([[x, y]], np.float32)])
-            dPoint = cv2.perspectiveTransform(sPoint, map.M)
-            x = dPoint[0][0][0]
-            y = dPoint[0][0][1]
+        # if len(map.fieldCorners) == 12:
+        sPoint = np.array([np.array([[x, y]], np.float32)])
+        dPoint = cv2.perspectiveTransform(sPoint, map.M)
+        x = dPoint[0][0][0]
+        y = dPoint[0][0][1]
         return int(round(x)), int(round(y))
 
     # def reverseCorrect(self, x, y, map):
