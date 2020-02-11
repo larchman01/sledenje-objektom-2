@@ -90,7 +90,7 @@ class TrackerGame(Tracker):
 
         # Convert screen coordinates to 0-based coordinates
         offset_x = map.imageWidth / 2
-        offset_y = map.imageHeighth / 2
+        offset_y = map.imageHeight / 2
 
         # Calculate distance from center
         dist = np.sqrt((x - offset_x) ** 2 + (y - offset_y) ** 2)

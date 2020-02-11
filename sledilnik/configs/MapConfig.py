@@ -12,7 +12,7 @@ class MapConfig:
         self.fieldCorners = []
         self.fields = {}
         self.imageWidth = 0
-        self.imageHeighth = 0
+        self.imageHeight = 0
         self.fieldCornersVirtual = [[0, 2055], [3555, 2055], [3555, 0], [0, 0]]
         self.M = []
 

@@ -158,8 +158,8 @@ class TrackerSetup(Tracker):
                 if fieldEditMode:
                     if len(configMap.fieldCorners) == self.numOfCorners:
 
-                        src = np.array([configMap.fieldCorners[3], configMap.fieldCorners[2],
-                                        configMap.fieldCorners[1], configMap.fieldCorners[0]], np.float32)
+                        src = np.array([configMap.fieldCorners[0], configMap.fieldCorners[1],
+                                        configMap.fieldCorners[2], configMap.fieldCorners[3]], np.float32)
                         dst = np.array(configMap.fieldCornersVirtual, np.float32)
                         configMap.M = cv2.getPerspectiveTransform(src, dst)
 
