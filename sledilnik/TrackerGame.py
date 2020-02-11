@@ -140,24 +140,6 @@ class TrackerGame(Tracker):
         return False
 
     @staticmethod
-    def moveOrigin(x, y, map):
-        """Translates coordinate to new coordinate system and applies scaling to get units in ~mm.
-        Args:
-            x (int): x coordinate
-            y (int): y coordinateq
-            map (ResMap) : map object
-        Returns:
-            Tuple[int, int]: Corrected coordinates
-        """
-        # Translate coordinates if new origin exists (top left corner of map)
-        if len(map.fieldCorners) == 12:
-            sPoint = np.array([np.array([[x, y]], np.float32)])
-            dPoint = cv2.perspectiveTransform(sPoint, map.M)
-            x = dPoint[0][0][0]
-            y = dPoint[0][0][1]
-        return int(round(x)), int(round(y))
-
-    @staticmethod
     def processKeys():
         # Detect key press
         keypressed = cv2.waitKey(1) & 0xFF
