@@ -12,7 +12,6 @@ class MovableObject:
     def reprJSON(self):
         return {
             "id": self.id,
-            "x": self.pos.x,
-            "y": self.pos.y,
+            "position": self.pos,
             "dir": self.direction
         }
