@@ -102,6 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# videos
 *.mp4
 
 .idea
+/saved_fields
+/saved_fields
